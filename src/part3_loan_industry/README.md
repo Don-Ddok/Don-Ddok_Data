@@ -35,6 +35,11 @@ iM Digital Banker Academy/
 | 5-1~5-2 | `step5_*.py` | 여신 세부 항목 점검·회귀 | `step5_2_item_results.csv` |
 | 6-1~6-3 | `step6_*.py` | 분류 매트릭스, 업종별 표, 무역금융 기술통계(서술용) | `step6_2_industry_table.csv` |
 | 8-1~8-4 | `step8_*.py` | 환율 통제, IPW·겹침 구간, 최소검출효과, 2023-01 관측 회사 | (출력만) |
+| 8-6 | `step8_6_calendar_control.py` | 영업일수(달력) 통제 — 외부데이터 `workdays_2021_2025.csv` 필요 | `step8_6_calendar_control.csv` |
+| 9-1 | `step9_1_downturn.py` | 수출 하락·상승 국면 분리(β₃⁻, β₃⁺) | (출력만, 9단계 요약에 포함) |
+| 9-2 | `step9_2_intensity.py` | 노출 강도(연속형) 교호항 | (출력만, 9단계 요약에 포함) |
+| 9-3 | `step9_3_export_only.py` | 수입만 한 회사 제외, 수출 회사만 재매칭 | (출력만, 9단계 요약에 포함) |
+| 9-4 | `step9_4_balanced_panel.py` | 36개월 균형 패널 재매칭 | (출력만, 9단계 요약에 포함) |
 | 공통 | `common.py` | 패널 준비, 고정효과 회귀, 이중 클러스터, 매칭 가중치 | |
 | 점검 | `internal_demo_summary.py` | 대시보드 참고 신호 규칙을 실제 데이터에 적용한 집계 | `내부시연/summary.json`(로컬 전용) |
 | 점검 | `combo_signal_check.py` | 팀 조합 신호(요구불예금 감소 + 할인어음 증가) 개별 법인 점검. 설계·통과 기준은 머리말에 실행 전 고정 | `내부시연/combo_check.json`(로컬 전용) |
@@ -43,14 +48,18 @@ iM Digital Banker Academy/
 
 6개월 창(h=6), 매칭 1:3, 법인·월 이중 클러스터. 판정: p<0.05 유의 / 0.05~0.10 약한 증거 / ≥0.10 근거 없음. 월 클러스터만 쓴 p값은 기간 겹침 때문에 낙관적이라 쓰지 않습니다.
 
+9단계(9-1~9-4)는 6단계 이후에 새로 설계한 검정 4개로, 이중 클러스터 p를 Holm 보정한 값으로 판정합니다. 8-6은 8단계와 같은 강건성 점검(주 결과의 절반 기준)입니다. 설계와 해석은 Don-Ddok_Docs `분석결과/파트3_여신업종분석/06`, `08` 문서에 있습니다.
+
 ## 결과 표
 
-`/outputs/tables/part3_loan_industry/`의 CSV 두 개는 집계 결과(법인 ID·회사 단위 값 없음)입니다.
+`/outputs/tables/part3_loan_industry/`의 CSV는 집계 결과(법인 ID·회사 단위 값 없음)입니다.
 
 | 파일 | 표본·모형 |
 |---|---|
 | `step5_2_item_results.csv` | 5단계: 매칭 표본(1:3), 세부 항목 5개 × 4구간 회귀. β3, 이중 클러스터 SE·p, Holm 보정 |
 | `step6_2_industry_table.csv` | 6단계: 제조업 중분류별 불황·호황 달의 대출 증가·감소 비율(서술용, 검정 없음) |
+| `step8_6_calendar_control.csv` | 8-6: 영업일수(달력) 2항 통제 전후 β₃ 비교(h=6 주 모형·이중강건, h=3 참고) |
+| `step9_holm_summary.csv` | 9단계: 9-1~9-4 주 검정 β·p(이중)·Holm 보정 p·판정 |
 
 ## 올리지 않는 것
 
