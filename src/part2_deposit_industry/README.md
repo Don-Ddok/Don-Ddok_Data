@@ -10,7 +10,7 @@
 - 그래프 글꼴은 `Malgun Gothic`(Windows 기본)
 - 노트북 첫 코드 셀의 경로(`file_bank`, `file_customs`)는 분석자 로컬 폴더 기준입니다. 다시 실행하려면 자기 환경에 맞게 바꿉니다.
   - `data.xlsx`: iM뱅크 법인 익명데이터(비공개, 이 저장소에 없음. `/data/raw`에 두고 경로 변경)
-  - `export_region.csv`: [`/data/external/export_region.csv`](../../../data/external/export_region.csv)와 같은 값(숫자 표기 `-9`/`-9.0` 차이만 있음)
+  - `export_region.csv`: [`/data/external/export_region.csv`](../../data/external/export_region.csv)와 같은 값(숫자 표기 `-9`/`-9.0` 차이만 있음)
 
 ## 노트북
 
