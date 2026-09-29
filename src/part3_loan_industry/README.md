@@ -13,7 +13,8 @@
 iM Digital Banker Academy/
   ★★★2026 iM뱅크 데이터/(iM뱅크) 2026 교육용 법인 익명데이터.xlsx   ← 원본(비공개, step1_1이 읽음)
   통계 프로젝트/
-    외부데이터/export_region.csv, 환율_ECOS원자료_202101_202512.csv   ← 이 저장소 /data/external과 같은 파일
+    외부데이터/export_region.csv, 환율_ECOS원자료_202101_202512.csv,
+    외부데이터/기준금리_ECOS원자료_202101_202512.csv, workdays_2021_2025.csv   ← 이 저장소 /data/external과 같은 파일
     여신업종분석/
       production_index_industry.csv                                  ← /data/external과 같은 파일
       내부시연/                                                       ← internal_demo_summary·combo_signal_check 결과(로컬 전용)
@@ -36,12 +37,16 @@ iM Digital Banker Academy/
 | 6-1~6-3 | `step6_*.py` | 분류 매트릭스, 업종별 표, 무역금융 기술통계(서술용) | `step6_2_industry_table.csv` |
 | 8-1~8-4 | `step8_*.py` | 환율 통제, IPW·겹침 구간, 최소검출효과, 2023-01 관측 회사 | (출력만) |
 | 8-6 | `step8_6_calendar_control.py` | 영업일수(달력) 통제 — 외부데이터 `workdays_2021_2025.csv` 필요 | `step8_6_calendar_control.csv` |
+| 8-7 | `step8_7_pretrend.py` | 충격 이전 추세(사전 추세): 충격 전 6개월·3개월 변화로 같은 식 추정 | `step8_7_pretrend.csv` |
+| 8-8 | `step8_8_base_rate.py` | 기준금리 통제 — 외부데이터 `기준금리_ECOS원자료_202101_202512.csv` 필요 | `step8_8_base_rate.csv` |
+| 8-9 | `step8_9_month_dummies.py` | 달력월(1~12월) 더미, **사후 보조**(설계에 없던 진단) | `step8_9_month_dummies.csv` |
 | 9-1 | `step9_1_downturn.py` | 수출 하락·상승 국면 분리(β₃⁻, β₃⁺) | (출력만, 9단계 요약에 포함) |
 | 9-2 | `step9_2_intensity.py` | 노출 강도(연속형) 교호항 | (출력만, 9단계 요약에 포함) |
 | 9-3 | `step9_3_export_only.py` | 수입만 한 회사 제외, 수출 회사만 재매칭 | (출력만, 9단계 요약에 포함) |
 | 9-4 | `step9_4_balanced_panel.py` | 36개월 균형 패널 재매칭 | (출력만, 9단계 요약에 포함) |
 | 공통 | `common.py` | 패널 준비, 고정효과 회귀, 이중 클러스터, 매칭 가중치 | |
 | 점검 | `internal_demo_summary.py` | 대시보드 참고 신호 규칙을 실제 데이터에 적용한 집계 | `내부시연/summary.json`(로컬 전용) |
+| 점검 | `internal_firms_export.py` | 대시보드 내부 시연 모드용 거래처 데이터(외환노출 1,032곳, 법인ID 앞 8자리) 내보내기. 결과 JSON은 로컬 전용이라 올리지 않음 | `내부시연/firms.json`(로컬 전용) |
 | 점검 | `combo_signal_check.py` | 팀 조합 신호(요구불예금 감소 + 할인어음 증가) 개별 법인 점검. 설계·통과 기준은 머리말에 실행 전 고정 | `내부시연/combo_check.json`(로컬 전용) |
 
 ## 주 분석 기준(4단계 전에 고정)
@@ -60,6 +65,9 @@ iM Digital Banker Academy/
 | `step6_2_industry_table.csv` | 6단계: 제조업 중분류별 불황·호황 달의 대출 증가·감소 비율(서술용, 검정 없음) |
 | `step8_6_calendar_control.csv` | 8-6: 영업일수(달력) 2항 통제 전후 β₃ 비교(h=6 주 모형·이중강건, h=3 참고) |
 | `step9_holm_summary.csv` | 9단계: 9-1~9-4 주 검정 β·p(이중)·Holm 보정 p·판정 |
+| `step8_7_pretrend.csv` | 8-7: 충격 전 6개월·3개월 β₃, 같은 표본의 주 결과, 95% 신뢰구간 |
+| `step8_8_base_rate.csv` | 8-8: 기준금리 2항 통제 전후 β₃, 금리 계수 |
+| `step8_9_month_dummies.csv` | 8-9: 달력월 더미 전후 β₃(주 결과·사전 6개월), 표준오차 배수 |
 
 ## 올리지 않는 것
 
