@@ -37,7 +37,7 @@ README.md
 ```
 
 - `/data/raw`, `/data/processed`는 폴더 자체는 두되(`.gitkeep`) 안의 실 데이터는 올리지 않는다.
-- 지금 올라간 분석 코드는 파트 3 [`/src/part3_loan_industry`](src/part3_loan_industry/README.md)(실행 순서·산출물 설명 포함)이고, 집계 결과표는 `/outputs/tables/part3_loan_industry`에 있다. 외부 데이터 목록과 검증 기록은 [`/data/external/README.md`](data/external/README.md).
+- 지금 올라간 분석 코드는 파트 3 [`/src/part3_loan_industry`](src/part3_loan_industry/README.md)(실행 순서·산출물 설명 포함)와 저축성 예금 [`/src/part2_deposit_industry`](src/part2_deposit_industry/README.md)(거치식·적립식 업종별 LP)이고, 집계 결과표는 `/outputs/tables/part3_loan_industry`에 있다. 외부 데이터 목록과 검증 기록은 [`/data/external/README.md`](data/external/README.md).
 - 이미 확보한 외부 데이터(`production_index_industry.csv`, `production_index_region.csv` 등)는 `/data/external`로 옮겨 올린다.
 
 ## 2. `.gitignore` (최소 기준)
