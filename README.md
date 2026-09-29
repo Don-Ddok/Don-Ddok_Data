@@ -37,6 +37,7 @@ README.md
 ```
 
 - `/data/raw`, `/data/processed`는 폴더 자체는 두되(`.gitkeep`) 안의 실 데이터는 올리지 않는다.
+- 지금 올라간 분석 코드는 파트 3 [`/src/part3_loan_industry`](src/part3_loan_industry/README.md)(실행 순서·산출물 설명 포함)이고, 집계 결과표는 `/outputs/tables/part3_loan_industry`에 있다. 외부 데이터 목록과 검증 기록은 [`/data/external/README.md`](data/external/README.md).
 - 이미 확보한 외부 데이터(`production_index_industry.csv`, `production_index_region.csv` 등)는 `/data/external`로 옮겨 올린다.
 
 ## 2. `.gitignore` (최소 기준)
@@ -127,7 +128,8 @@ Don-Ddok_Docs와 동일한 원칙을 쓰되 코드 성격에 맞춘 타입을 �
 | 지역 제조업 생산지수 (KOSIS) | 확보 | `production_index_region.csv` |
 | 원/달러 환율 (한국은행 ECOS 731Y004, 월평균 매매기준율) | 확보·검증 | `/data/external/환율_ECOS원자료_202101_202512.csv`. **이전에 공유된 환율 파일은 ECOS와 60개월 중 52개월이 달라 사용하지 않는다** |
 | 대구·경북 기업경기실사지수(BSI) | 확보, 원자료 대조 전 | 쓰기 전에 원자료와 대조 필요 |
-| 기준금리 (ECOS) | 미확보 | |
+| 기준금리 (한국은행 ECOS 722Y001) | 확보·검증 | `/data/external/기준금리_ECOS원자료_202101_202512.csv`. ECOS 원자료 직접 수집(2026-09-29), 파트 3 8-8에서 사용 |
+| 월별 영업일수 | 확보·검증 | `/data/external/workdays_2021_2025.csv`. 공휴일·대체공휴일 반영, `holidays` 라이브러리로 60개월 재계산 일치. 달력 통제(8-6)에서 사용 |
 | iM뱅크 법인 익명데이터 | 보유(비공개) | 이 저장소에는 절대 올리지 않는다 |
 
 자세한 변수 정의는 분석정의서(`프로젝트_방향성_및_실행계획.docx`, 팀 드라이브)를 기준으로 한다.

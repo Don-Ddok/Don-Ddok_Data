@@ -11,11 +11,11 @@
 
 ```
 iM Digital Banker Academy/
-  ★★★2026 iM뱅크 데이터/(iM뱅크) 2026 교육용 법인 익명데이터.xlsx   ← 원본(비공개, step1_1이 읽음)
   통계 프로젝트/
+    은행_원본데이터/(iM뱅크) 2026 교육용 법인 익명데이터.xlsx      ← 원본(비공개, step1_1이 읽음)
     외부데이터/export_region.csv, 환율_ECOS원자료_202101_202512.csv,
     외부데이터/기준금리_ECOS원자료_202101_202512.csv, workdays_2021_2025.csv   ← 이 저장소 /data/external과 같은 파일
-    여신업종분석/
+    파트3_여신업종분석/
       production_index_industry.csv                                  ← /data/external과 같은 파일
       내부시연/                                                       ← internal_demo_summary·combo_signal_check 결과(로컬 전용)
       단계별 분석/                                                    ← 이 폴더의 .py와 중간 parquet
@@ -47,7 +47,7 @@ iM Digital Banker Academy/
 | 공통 | `common.py` | 패널 준비, 고정효과 회귀, 이중 클러스터, 매칭 가중치 | |
 | 점검 | `internal_demo_summary.py` | 대시보드 참고 신호 규칙을 실제 데이터에 적용한 집계 | `내부시연/summary.json`(로컬 전용) |
 | 점검 | `internal_firms_export.py` | 대시보드 내부 시연 모드용 거래처 데이터(외환노출 1,032곳, 법인ID 앞 8자리) 내보내기. 결과 JSON은 로컬 전용이라 올리지 않음 | `내부시연/firms.json`(로컬 전용) |
-| 점검 | `combo_signal_check.py` | 팀 조합 신호(요구불예금 감소 + 할인어음 증가) 개별 법인 점검. 설계·통과 기준은 머리말에 실행 전 고정 | `내부시연/combo_check.json`(로컬 전용) |
+| 점검 | `combo_signal_check.py` | 팀 조합 신호(요구불예금 감소 + 할인어음 증가) 개별 법인 점검. 설계·통과 기준은 머리말에 실행 전 고정. 달력 보정 **전** 수출로 계산한 결과(부분 지지)이며, 달력 보정 후 팀 재검증에서 이 신호는 착시로 기각됨 | `내부시연/combo_check.json`(로컬 전용) |
 
 ## 주 분석 기준(4단계 전에 고정)
 
