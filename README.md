@@ -19,26 +19,25 @@
 
 ```
 /data
-  /external          # 공개 출처 외부 데이터 (커밋 가능) — 관세청 수출입, KOSIS 생산지수, ECOS BSI·금리·환율
-  /raw                # 은행 원본 데이터 두는 자리 — .gitignore로 제외, 로컬/드라이브에만 존재
-  /processed          # 전처리 완료된 분석용 테이블 — 기본적으로 제외(용량·민감도), 필요 시 개별 협의
-/notebooks
-  /01_preprocessing   # 전처리·변수 생성
-  /02_diagnostics     # 0단계 결합 검증, 변수 정의 검증(소진율 등), EDA
-  /03_analysis        # 정상성·시차탐색·패널회귀·매칭
-  /04_robustness      # 강건성, 위약검정
-/src                  # 노트북에서 반복 쓰는 함수 (전처리, 회귀, 시각화 유틸)
+  /external            # 공개 출처 외부 데이터(커밋 가능): 관세청 수출입, KOSIS 생산지수, ECOS 환율·기준금리, 월별 영업일수
+  /raw                 # 은행 원본 데이터 두는 자리. .gitignore로 제외, 로컬·드라이브에만 존재
+  /processed           # 전처리한 분석용 테이블. 기본적으로 제외(용량·민감도), 필요 시 개별 협의
+/src
+  /part2_deposit_industry   # 파트 2: 거치식·적립식 예금 업종별 LP (노트북 2개 + README)
+  /part3_loan_industry      # 파트 3: 여신·업종 분석 (step*.py 스크립트, 공통 모듈 common.py, README)
 /outputs
-  /tables             # 산출물 표 (csv/md)
-  /figures            # 그래프 (png/svg)
-docs/                 # 데이터 명세서, 변수 정의서 등 코드repo에 딸린 짧은 문서
+  /tables
+    /part3_loan_industry    # 파트 3 집계 결과표(csv). 법인 ID·회사 단위 값 없음
+  /figures             # 그래프(png/svg). 아직 비어 있음
 README.md
 .gitignore
 ```
 
-- `/data/raw`, `/data/processed`는 폴더 자체는 두되(`.gitkeep`) 안의 실 데이터는 올리지 않는다.
-- 지금 올라간 분석 코드는 파트 3 [`/src/part3_loan_industry`](src/part3_loan_industry/README.md)(실행 순서·산출물 설명 포함)와 저축성 예금 [`/src/part2_deposit_industry`](src/part2_deposit_industry/README.md)(거치식·적립식 업종별 LP)이고, 집계 결과표는 `/outputs/tables/part3_loan_industry`에 있다. 외부 데이터 목록과 검증 기록은 [`/data/external/README.md`](data/external/README.md).
-- 이미 확보한 외부 데이터(`production_index_industry.csv`, `production_index_region.csv` 등)는 `/data/external`로 옮겨 올린다.
+- 분석 코드는 **파트별 폴더**(`/src/part{번호}_{주제}`)에 코드와 노트북을 함께 둔다. 폴더마다 README에 실행 환경, 실행 순서, 산출물을 적는다. 새 파트를 올릴 때도 같은 이름 규칙을 쓴다.
+- 결과표는 `/outputs/tables/part{번호}_{주제}`에 파트별로 나눠 올린다. 파일명은 만든 스크립트 이름(예: `step8_6_calendar_control.csv`)을 따른다.
+- `/data/raw`, `/data/processed`, `/outputs/figures`는 폴더 자체는 두되(`.gitkeep`) 안의 실 데이터는 올리지 않는다.
+- 폴더 안내: 파트 3 [`/src/part3_loan_industry`](src/part3_loan_industry/README.md), 파트 2 [`/src/part2_deposit_industry`](src/part2_deposit_industry/README.md), 외부 데이터 목록과 검증 기록 [`/data/external/README.md`](data/external/README.md).
+- 이미 확보한 외부 데이터(`production_index_industry.csv` 등)는 `/data/external`에 있다. 지역 제조업 생산지수처럼 원자료 대조 전인 파일은 올리지 않는다.
 
 ## 2. `.gitignore` (최소 기준)
 
@@ -103,11 +102,11 @@ Don-Ddok_Docs와 동일한 원칙을 쓰되 코드 성격에 맞춘 타입을 �
 
 예시: `feat: 시차 0~6개월 교차상관 계산 추가`, `data: 대구·경북 수출액 CSV 갱신(2025.12까지)`
 
-## 5. 노트북·코드 규칙
+## 5. 코드·노트북 규칙
 
-- 노트북 파일명은 **번호 + 내용**으로: `01_preprocessing_export_exposure.ipynb`처럼 실행 순서를 알 수 있게 한다.
+- 노트북·스크립트 파일명은 **번호 + 내용**으로: `01_deposit_industry_lp_initial.ipynb`, `step3_3_matched_regression.py`처럼 실행 순서를 알 수 있게 한다.
 - 노트북 상단에 실행 환경을 적는다: Colab 기준(`drive.mount('/content/drive')`, 경로는 `/content/drive/MyDrive/...`)인지 로컬(`python`, Windows) 기준인지 명시한다.
-- 반복해서 쓰는 함수(전처리, 회귀 실행, 표 만들기)는 노트북에 복붙하지 말고 `/src`로 뺀다.
+- 반복해서 쓰는 함수(전처리, 회귀 실행, 표 만들기)는 노트북에 복붙하지 말고 파트 폴더의 공통 모듈(예: `part3_loan_industry/common.py`)로 뺀다.
 - 커밋 전에 노트북 출력(특히 원본 데이터의 실제 값이 찍힌 셀)을 확인한다. 필요하면 `jupyter nbconvert --clear-output`으로 출력만 지우고 커밋한다.
 - 코드는 다른 팀원이 그대로 실행해서 같은 결과가 나와야 한다. 랜덤 시드, 파일 경로, 필요한 라이브러리 버전을 노트북 상단이나 `requirements.txt`에 적어 둔다.
 - 회귀·검정 결과 표는 숫자만 던지지 말고 셀 마지막에 한두 줄 해석을 남긴다. 세 보고서(방향성 문서·중간 보고서·기본 보고서) 사이에 숫자가 어긋난 전례가 있으니, **어떤 표본·전처리·모형 버전에서 나온 숫자인지**를 표 옆에 반드시 적는다.
