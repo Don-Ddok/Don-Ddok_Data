@@ -13,7 +13,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 t0 = time.time()
 
 HERE = Path(__file__).resolve().parent                  # .../여신업종분석/단계별 분석
-RAW = HERE.parents[2] / "★★★2026 iM뱅크 데이터" / "(iM뱅크) 2026 교육용 법인 익명데이터.xlsx"
+RAW = HERE.parents[2] / "은행_원본데이터" / "(iM뱅크) 2026 교육용 법인 익명데이터.xlsx"
 OUT = HERE / "step1_1_filtered.parquet"
 
 # 명세서 2절 — 가져올 컬럼 24개
