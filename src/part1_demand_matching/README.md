@@ -17,18 +17,22 @@
 
 ## 분석별 폴더
 
-| 폴더 | 분석 |
-|---|---|
-| `harmonized` | 네 계정 공통 사양 재추정. 공통 함수 `hlib.py`(법인 FE + 지역×연월 FE를 FWL로 제거, 법인·연월 이중 군집) |
-| `did_demand_deposit` | 요구불 DID. 옛 코드 `run_old_code.py` 보존 |
-| `did_loan_robust` | 대출 강건성 |
-| `mechanism_inflow` | 입금 경로 메커니즘 |
-| `industry_shock` | 업종 충격(HS4→KSIC 연결) |
-| `firm_shock` | 기업별 외환 충격 |
-| `exploratory` | 탐색 분석 |
-| `trade_extra_mde`, `trade_finance_mde` | 본 분석 전 최소검출효과 판단(회귀 없음) |
-| `devreview` | 검산·문구 감사 |
-| `FINAL` | 최종 문서 PDF 생성 스크립트 |
+폴더 이름은 작성자 원본 그대로입니다(문서가 이 이름으로 서로를 참조합니다). 무슨 분석인지는 아래 표를 보세요.
+
+| 폴더 | 분석 | 결과 |
+|---|---|---|
+| `harmonized` | 네 계정 공통 사양 재추정. 공통 함수 `hlib.py`(법인 FE + 지역×연월 FE를 FWL로 제거, 법인·연월 이중 군집) | 요구불 −3.57% 확정 / 적립식 약한 증거 / 거치식·**운전자금 근거 없음** |
+| `did_demand_deposit` | 요구불 DID. 옛 코드 `run_old_code.py` 보존 | 매칭 표본에서도 방향 유지 |
+| `did_loan_robust` | 대출 강건성 점검 14종 | — |
+| `mechanism_inflow` | 입금 경로 메커니즘 | 왜 요구불이 먼저 움직이나 |
+| `industry_shock` | 업종 충격(HS4→KSIC 연결) | 1단계 연결이 약해 2단계 미실행 |
+| `firm_shock` | 기업별 외환 충격 | h=6 확정 없음, 적립식 약한 증거 |
+| `exploratory` | 탐색 분석 | 탐색적 |
+| `trade_extra_mde`, `trade_finance_mde` | 본 분석 전 최소검출효과 판단(회귀 없음) | 전부 진행 안 함 |
+| `devreview` | 검산·문구 감사 | 최우선 검산 3건 |
+| `FINAL` | 최종 문서 PDF 생성 스크립트 | — |
+
+결과표는 `outputs/tables/part1_demand_matching/분석별/`에 **같은 순서로 번호를 붙여** 두었습니다(`01_harmonized`, `02_did_demand_deposit`, …). 설계·결과 문서는 Docs 저장소 `분석별_보고서/`에 **같은 영어 이름**으로 있습니다.
 
 ## 실행 순서
 
