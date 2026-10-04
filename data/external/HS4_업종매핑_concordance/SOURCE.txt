@@ -1,0 +1,4 @@
+출처와 받은 날짜 (2026-09-30)
+CPC21-HS2017.csv  https://unstats.un.org/unsd/classifications/Econ/tables/CPC/CPCv21_HS2017/CPC21-HS2017.csv
+isic4-cpc21.txt   https://unstats.un.org/unsd/classifications/Econ/tables/ISIC/ISIC4_CPCv21/isic4-cpc21.txt
+제공: UN Statistics Division, Classifications on economic statistics

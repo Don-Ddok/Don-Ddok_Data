@@ -1,0 +1,135 @@
+# 기업상품 → 모델 상품유형 매핑 규칙 (map_products.py가 읽음)
+# 적용 순서: 1) 상품명 예외 → 2) 목록 기준. 각 단계 안에서는 위에 적힌 규칙이 먼저 적용된다.
+# 상품명 비교는 공백을 모두 지운 뒤 한다.
+#   match: exact    → 공백 제거한 상품명이 name과 같을 때
+#   match: contains → 공백 제거한 상품명에 name이 들어 있을 때
+
+name_exceptions:
+  - {name: "당좌대출", match: exact, type: 한도대출}
+  - {name: "기업통장대출", match: exact, type: 한도대출}
+  - {name: "외화대출", match: exact, type: 수출입운전자금}
+  - {name: "FOR-YOU수출입기업특별대출", match: exact, type: 수출입운전자금}
+  # 외환 안내 페이지 (상품명 기준). '인수후매입'을 '매입'보다 먼저 둬야 한다.
+  - {name: "수출환어음인수후매입", match: contains, type: 수출금융}
+  - {name: "수출환어음매입", match: contains, type: 수출금융}
+  - {name: "무역금융", match: contains, type: 수출금융}
+  - {name: "내국신용장", match: contains, type: 수출금융}
+  - {name: "수출신용장통지", match: contains, type: 수출금융}
+  - {name: "수입신용장개설", match: contains, type: 수입금융}
+  - {name: "수입화물선취보증서", match: contains, type: 수입금융}
+  - {name: "수입물품대도", match: contains, type: 수입금융}
+
+# 목록 기준: 출처목록에 해당 목록이 있으면 적용. 여러 목록에 걸친 상품은 위에 있는 규칙이 우선
+# (예: 운전자금|시설자금 → 운전자금). 출처목록 컬럼은 그대로 둔다.
+list_rules:
+  - {list: "B2B전자결제", type: 매출채권유동화}
+  - {list: "운전자금", type: 운전자금}
+  - {list: "시설자금", type: 시설자금}
+  - {list: "정책자금", type: 보증정책연계}
+  - {list: "신용보증기금보증서담보", type: 보증정책연계}
+  - {list: "추천자금", type: 보증정책연계}
+  - {list: "DGB희망키움특별보증", type: 보증정책연계}
+  - {list: "골목상점가특별보증", type: 보증정책연계}
+  - {list: "DGB청년드림", type: 보증정책연계}
+  - {list: "국세성실납세사업자특별", type: 보증정책연계}
+  - {list: "지급보증", type: 보증}
+  - {list: "소상공인", type: 제외}
+  - {list: "기술우수_창업기업", type: 제외}
+
+# 개별 조정 (모델유형 매핑 뒤에 적용). match는 list(출처목록에 포함) 또는 name(+ match 방식).
+# set 안의 모델유형·매핑근거·법인추천가능은 값을 덮어쓰고, 비고는 기존 비고 뒤에 이어 붙인다.
+# 법인추천가능을 여기서 정한 상품은 아래 recommend_rules를 적용하지 않는다.
+overrides:
+  - match: {list: "외환안내"}
+    set: {법인추천가능: Y, 매핑근거: "업무 안내 페이지, 대상 제한 문구 없음 (판단)"}
+  - match: {name: "소상공인시장진흥공단정책자금", match: exact}
+    set: {모델유형: 보증정책연계, 법인추천가능: 확인필요, 매핑근거: "상품명 예외(소상공인시장진흥공단 정책자금)"}
+  - match: {name: "맞춤형채무조정", match: contains}
+    set: {비고: "부실 대응 상품, 모델 취지와 다름"}
+  # 2026-09-28 원문 검토 판단 (대상·법인추천가능·추가요건). 추가요건 = 모델 데이터로 확인할 수 없는 가입 조건
+  - match: {name: "전자방식외상매출채권담보대출(외담대)", match: exact}
+    set: {대상: 둘다, 법인추천가능: Y, 추가요건: "구매기업이 iM뱅크와 외담대 약정 체결"}
+  - match: {name: "전자채권(담보대출)", match: exact}
+    set: {대상: 둘다, 법인추천가능: Y, 추가요건: "90일 이내 만기 전자채권 보유"}
+  - match: {name: "MP연계기업구매자금대출", match: exact}
+    set: {대상: 둘다, 법인추천가능: Y, 모델유형: 운전자금,
+          매핑근거: "구매기업 대상, 매출채권 현금화가 아니라 구매대금 조달",
+          추가요건: "iM뱅크 협약 MP사와 거래"}
+  - match: {name: "ESGGrow-Up특별대출", match: exact}
+    set: {대상: 둘다, 법인추천가능: Y, 추가요건: "ESG 인증·평가 요건 중 하나 충족"}
+  - match: {name: "FOR-YOU수출입기업특별대출", match: exact}
+    set: {대상: 둘다, 법인추천가능: Y, 추가요건: "신용등급 요건 + 최근 1년 수출입 실적"}
+  # 원문에 명확한 가입 조건이 있는 Y 상품의 추가요건 (2026-09-28 판단)
+  - match: {name: "착한건물주특별대출", match: exact}
+    set: {추가요건: "부동산임대업 영위(예정) 사업자", 데이터필터: "업종_대분류=부동산업", 필터근거: 요건}
+  - match: {name: "동산담보대출", match: exact}
+    set: {추가요건: "동산·채권 정규담보 제공, 업력 1년 이상"}
+  - match: {name: "당좌대출", match: exact}
+    set: {추가요건: "당좌계좌 개설 기업"}
+  - match: {name: "상업어음할인", match: exact}
+    set: {추가요건: "상거래 약속어음 소지"}
+  - match: {name: "무역금융", match: exact}
+    set: {추가요건: "수출신용장·수출계약서·내국신용장·구매확인서 또는 과거 수출·공급 실적", 데이터필터: "세그먼트=수출형", 필터근거: 요건}
+  - match: {name: "국세성실납세사업자특별대출", match: contains}
+    set: {추가요건: "3년 또는 5년 성실 납세"}
+  # 상품별 데이터필터 (매칭 엔진이 자동으로 거를 조건)
+  - match: {name: "FOR-YOU수출입기업특별대출", match: exact}
+    set: {데이터필터: "세그먼트 in (수출형,수입형)", 필터근거: 요건}
+  # 지역 필터 (2026-09-28). 추천자금 2개 + 원문에 지역이 명시된 지역 신용보증재단 관련 상품
+  - match: {name: "대구시추천자금", match: exact}
+    set: {데이터필터: "지역=대구", 필터근거: 요건}
+  - match: {name: "경상북도추천자금", match: exact}
+    set: {데이터필터: "지역=경북", 필터근거: 요건}
+  - match: {name: "DGB희망키움특별보증대출", match: exact}     # 원문: 대구광역시 내 자영업자, 대구신용보증재단 보증
+    set: {데이터필터: "지역=대구", 필터근거: 요건}
+  - match: {name: "골목상점가특별보증대출", match: exact}       # 원문: 대구광역시 내 자영업자, 대구신용보증재단 보증
+    set: {데이터필터: "지역=대구", 필터근거: 요건}
+  # 지자체 자금 (상품명 지역 기준). 국세성실납세 사업자 특별대출은 대상 문구 오류 의심이라 지역 필터 넣지 않음
+  - match: {name: "대구광역시중소기업육성자금", match: exact}
+    set: {데이터필터: "지역=대구", 필터근거: 요건, 매핑근거: "지자체 자금, 상품명 지역 기준"}
+  - match: {name: "경상북도중소기업육성자금", match: exact}
+    set: {데이터필터: "지역=경북", 필터근거: 요건, 매핑근거: "지자체 자금, 상품명 지역 기준"}
+  - match: {name: "대구광역시식품진흥기금", match: exact}
+    set: {데이터필터: "지역=대구", 필터근거: 요건, 매핑근거: "지자체 자금, 상품명 지역 기준",
+          추가요건: "식품 관련 사업자 (원문 확인)"}
+  # 보증기관 안내 페이지 (대출 상품 아님). '신용보증기금'은 '기술신용보증기금'과 겹치므로 exact로 비교
+  - match: {name: "신용보증기금", match: exact}
+    set: &guarantor {모델유형: 보증기관안내, 법인추천가능: N, 매핑근거: "상품명 예외(보증기관 안내 페이지)", 비고: "상품 아님, 정점 단계 이용 경로 안내용"}
+  - match: {name: "기술신용보증기금", match: exact}
+    set: *guarantor
+  - match: {name: "대구신용보증재단", match: exact}
+    set: *guarantor
+  - match: {name: "경북신용보증재단", match: exact}
+    set: *guarantor
+  - match: {name: "수탁보증", match: exact}
+    set: *guarantor
+  - match: {name: "협약체결지역신용보증재단", match: exact}
+    set: *guarantor
+
+# 모델유형별 데이터필터: overrides에서 상품별 데이터필터를 정하지 않은 상품에만 적용.
+# 필터 문법: "컬럼=값" 또는 "컬럼 in (값,값)". 세그먼트 값은 수출형 / 수입형 / 비노출 (매칭 모델 2단계에서 생성).
+# 필터근거: 상품별 필터는 overrides에서 정하고(요건), 모델유형별 필터는 type_filter_basis 값을 쓴다.
+type_filter_basis: 적합성
+type_filters:
+  수출금융: "세그먼트=수출형"
+  수입금융: "세그먼트=수입형"
+  수출입운전자금: "세그먼트 in (수출형,수입형)"
+
+# 보조유형: 출처목록에 lists_all의 목록이 모두 있으면 sub_type을 넣는다 (없으면 빈 칸).
+sub_type_rules:
+  - {lists_all: ["운전자금", "시설자금"], sub_type: 시설자금}
+
+# 법인추천가능: 위에서부터 처음 맞는 조건을 쓴다 (overrides에서 정하지 않은 상품만).
+recommend_rules:
+  - {when: {대상: 개인사업자}, value: N}
+  - {when: {모델유형: 제외}, value: N}
+  - {when: {대상: 법인}, value: Y}
+  - {when: {대상: 둘다}, value: Y}
+  - {when: {대상: 불명}, value: 확인필요}
+
+# 비고: 해당하는 문구를 모두 "; "로 이어 붙인다.
+notes:
+  rate_date_before_year: 2020          # 금리기준일 연도가 이보다 작으면
+  rate_date_note: "금리 영업점 확인"
+  by_name:
+    - {name: "국세성실납세사업자특별대출", match: contains, note: "사이트 대상 문구 오류 의심"}

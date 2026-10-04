@@ -23,10 +23,12 @@
   /raw                 # 은행 원본 데이터 두는 자리. .gitignore로 제외, 로컬·드라이브에만 존재
   /processed           # 전처리한 분석용 테이블. 기본적으로 제외(용량·민감도), 필요 시 개별 협의
 /src
+  /part1_demand_matching    # 파트 1: 요구불 신호와 매칭 모델 (분석 스크립트 + matching/ + analyses/)
   /part2_deposit_industry   # 파트 2: 거치식·적립식 예금 업종별 LP (노트북 2개 + README)
   /part3_loan_industry      # 파트 3: 여신·업종 분석 (step*.py 스크립트, 공통 모듈 common.py, README)
 /outputs
   /tables
+    /part1_demand_matching  # 파트 1 집계 결과표(csv). 5곳 미만 칸은 -1로 가림
     /part3_loan_industry    # 파트 3 집계 결과표(csv). 법인 ID·회사 단위 값 없음
   /figures             # 그래프(png/svg). 아직 비어 있음
 README.md
@@ -36,7 +38,7 @@ README.md
 - 분석 코드는 **파트별 폴더**(`/src/part{번호}_{주제}`)에 코드와 노트북을 함께 둔다. 폴더마다 README에 실행 환경, 실행 순서, 산출물을 적는다. 새 파트를 올릴 때도 같은 이름 규칙을 쓴다.
 - 결과표는 `/outputs/tables/part{번호}_{주제}`에 파트별로 나눠 올린다. 파일명은 만든 스크립트 이름(예: `step8_6_calendar_control.csv`)을 따른다.
 - `/data/raw`, `/data/processed`, `/outputs/figures`는 폴더 자체는 두되(`.gitkeep`) 안의 실 데이터는 올리지 않는다.
-- 폴더 안내: 파트 3 [`/src/part3_loan_industry`](src/part3_loan_industry/README.md), 파트 2 [`/src/part2_deposit_industry`](src/part2_deposit_industry/README.md), 외부 데이터 목록과 검증 기록 [`/data/external/README.md`](data/external/README.md).
+- 폴더 안내: 파트 1 [`/src/part1_demand_matching`](src/part1_demand_matching/README.md), 파트 3 [`/src/part3_loan_industry`](src/part3_loan_industry/README.md), 파트 2 [`/src/part2_deposit_industry`](src/part2_deposit_industry/README.md), 외부 데이터 목록과 검증 기록 [`/data/external/README.md`](data/external/README.md).
 - 이미 확보한 외부 데이터(`production_index_industry.csv` 등)는 `/data/external`에 있다. 지역 제조업 생산지수처럼 원자료 대조 전인 파일은 올리지 않는다.
 
 ## 2. `.gitignore` (최소 기준)
