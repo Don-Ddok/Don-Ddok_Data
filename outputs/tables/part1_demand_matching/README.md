@@ -1,6 +1,6 @@
 # 파트 1 결과표 — 요구불 신호와 매칭 모델
 
-허민영·신다혜 파트의 **집계 결과표**입니다. 법인 단위 값과 법인ID는 없습니다. 만든 코드는 [`src/part1_demand_matching`](../../../src/part1_demand_matching/README.md), 결과 해석은 [Don-Ddok_Docs `분석결과/파트1_요구불신호_매칭모델/`](https://github.com/Don-Ddok/Don-Ddok_Docs/tree/main/분석결과/파트1_요구불신호_매칭모델)에 있습니다.
+허민영·신다혜 파트의 **집계 결과표**입니다. 법인 단위 값과 법인ID는 없습니다. 만든 코드는 [`src/part1_demand_matching`](../../../src/part1_demand_matching/README.md), 결과 해석은 [Don-Ddok_Docs `분석결과/파트1_요구불매칭분석/`](https://github.com/Don-Ddok/Don-Ddok_Docs/tree/main/분석결과/파트1_요구불매칭분석)에 있습니다.
 
 ## 폴더
 
