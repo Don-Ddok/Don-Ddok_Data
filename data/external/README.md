@@ -18,6 +18,6 @@
 |---|---|---|---|
 | `지역별_중소기업_수출_quarterly.csv` | 시도별 분기 총수출과 중소기업 수출(36행) | 중소벤처기업부·관세청 중소기업 수출 통계 | 원자료 대조 전 — 참고용 |
 | `HS4_업종매핑_concordance/` | HS4 품목코드를 KSIC 업종으로 잇는 연결표(`CPC21-HS2017.csv`, `isic4-cpc21.txt`)와 출처 메모 | UN Statistics Division 분류 연결표 | 출처는 `SOURCE.txt` 참고 |
-| `Kstat_무역통계_원본/` | 대구(1)·경북(2) 월별 수출입 원본 xls | 한국무역협회 K-stat | `export_region.csv`가 이 파일의 정리본이며, 48개월 금액 100% 일치 확인(2026-09-23) |
+| `Kstat_무역통계_원본/` (저장소에는 없음) | 대구(1)·경북(2) 월별 수출입 원본 xls. `.gitignore`가 `*.xls`를 막아 올리지 않았고 K-stat에서 다시 받을 수 있음 | 한국무역협회 K-stat | `export_region.csv`가 이 파일의 정리본이며, 48개월 금액 100% 일치 확인(2026-09-23) |
 
 HS4 업종별 수출입 **월별 원본 217개(40MB)**는 올리지 않았습니다. 관세청 공개 통계라 다시 받을 수 있고, 연결표와 가공 결과표(`outputs/tables/part1_demand_matching/분석별/05_industry_shock`)만 있으면 재현됩니다.

@@ -126,14 +126,14 @@ Don-Ddok_Docs와 동일한 원칙을 쓰되 코드 성격에 맞춘 타입을 �
 |---|---|---|
 | 대구·경북 월별 수출입액 | 확보·검증 | 관세청 통계(한국무역협회 K-stat 지역별 수출입, HSK 전체 품목). 원자료와 48개월 금액 일치 확인. `/data/external/export_region.csv` |
 | 업종별 광공업생산지수 (KOSIS 101_DT_1F02001) | 확보·검증 | `/data/external/production_index_industry.csv`. 값이 0인 계열은 미공표로 보고 결측 처리 |
-| 지역 제조업 생산지수 (KOSIS) | 확보 | `production_index_region.csv` |
+| 지역 제조업 생산지수 (KOSIS) | 확보, 원자료 대조 전 | 이 저장소에는 올리지 않음(대조 후 `/data/external`에 추가) |
 | 원/달러 환율 (한국은행 ECOS 731Y004, 월평균 매매기준율) | 확보·검증 | `/data/external/환율_ECOS원자료_202101_202512.csv`. **이전에 공유된 환율 파일은 ECOS와 60개월 중 52개월이 달라 사용하지 않는다** |
 | 대구·경북 기업경기실사지수(BSI) | 확보, 원자료 대조 전 | 쓰기 전에 원자료와 대조 필요 |
 | 기준금리 (한국은행 ECOS 722Y001) | 확보·검증 | `/data/external/기준금리_ECOS원자료_202101_202512.csv`. ECOS 원자료 직접 수집(2026-09-29), 파트 3 8-8에서 사용 |
 | 월별 영업일수 | 확보·검증 | `/data/external/workdays_2021_2025.csv`. 공휴일·대체공휴일 반영, `holidays` 라이브러리로 60개월 재계산 일치. 달력 통제(8-6)에서 사용 |
 | iM뱅크 법인 익명데이터 | 보유(비공개) | 이 저장소에는 절대 올리지 않는다 |
 
-자세한 변수 정의는 분석정의서(`프로젝트_방향성_및_실행계획.docx`, 팀 드라이브)를 기준으로 한다.
+자세한 변수 정의는 분석정의서([`프로젝트_방향성_및_실행계획.docx`](https://github.com/Don-Ddok/Don-Ddok_Docs/blob/main/%EA%B8%B0%ED%9A%8D%EC%84%9C/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%EB%B0%A9%ED%96%A5%EC%84%B1_%EB%B0%8F_%EC%8B%A4%ED%96%89%EA%B3%84%ED%9A%8D.docx), Don-Ddok_Docs `기획서/`)를 기준으로 한다.
 
 ## 8. 외부 데이터 검증 규칙
 
